@@ -145,8 +145,6 @@ class MainApp(tk.Frame):
         self.dummyImage = tk.PhotoImage()
         self.flagImage = tk.PhotoImage(file="flag.png")
         self.grid_widget = [[None for j in range(self.width)] for i in range(self.height)]
-        print(len(self.grid_widget), self.height)
-        print(len(self.grid_widget[0]), self.width)
         self.init_grids()
         # self.button = tk.Button(self, image=self.dummyImage, height=5, width=5, command=self.ubah_label)
 
@@ -189,7 +187,6 @@ class MainApp(tk.Frame):
         self.game_state = new_state
         for i in get_coords:
             (x, y) = i
-            print(i)
             self.render_cells_on_board(x, y)
         if(self.game_state.is_over):
             self.handle_over()
@@ -365,12 +362,14 @@ def handle_prompt(master, var, height, width, bombs):
             int_height = int(height.get())
             int_width = int(width.get())
             int_bombs = int(bombs.get())
-            if(int_bombs < int_height * int_width and int_height <= 40 and int_height > 0\
-                and int_width <= 40 and int_width > 0):
+            if(int_bombs >= int_height * int_width):
+                raise Exception("Too many bombs")
+            elif(int_height > 24 or int_height < 5 or int_width > 24 or int_width < 5):
+                # 24 ke atas max recursion depth exception
+                raise Exception("Please keep the length between 5 to 24")
+            else:
                 master.destroy()
                 run_game(int_height, int_width, int_bombs)
-            else:
-                raise Exception("Too many bombs")
         except Exception as e:
             mb.showerror(title="Error!", message="Error found: {}".format(str(e)))
     
