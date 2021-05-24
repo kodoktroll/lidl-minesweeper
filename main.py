@@ -364,9 +364,9 @@ def handle_prompt(master, var, height, width, bombs):
             int_bombs = int(bombs.get())
             if(int_bombs >= int_height * int_width):
                 raise Exception("Too many bombs")
-            elif(int_height > 24 or int_height < 5 or int_width > 24 or int_width < 5):
+            elif(int_height > 23 or int_height < 5 or int_width > 23 or int_width < 5):
                 # 24 ke atas max recursion depth exception
-                raise Exception("Please keep the length between 5 to 24")
+                raise Exception("Please keep the length between 5 to 23")
             else:
                 master.destroy()
                 run_game(int_height, int_width, int_bombs)
